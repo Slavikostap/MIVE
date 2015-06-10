@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vaucher Entry</title>
+	<link type="text/css" rel="stylesheet" href="css/normalize.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+	<meta charset="UTF-8">
+
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script src="http://builds.emberjs.com/tags/v1.10.0/ember-template-compiler.js"></script>
+	<script src="http://builds.emberjs.com/tags/v1.10.0/ember.debug.js"></script>
+	<script type="text/javascript" src="js/handlebars-v3.0.3.js"></script>
+	<script src="http://builds.emberjs.com/release/ember.js"></script>
+	<script src="http://builds.emberjs.com/beta/ember-data.js"></script>
+	<script type="text/javascript" src="js/pouchdb-3.5.0.min.js"></script> 
+</head>	
+	
+
+<body>
+  <script type='text/x-handlebars' data-template-name='application' id="index">
+  <img src='img/DVE128.png' alt='District Vaucher Entry' id='DVE'><h2>Model Irrigation Voucher Entry</h2>
+		
+  	<!-- *********  MENU ON THE LEFT *********-->
+		<div id="leftColumn">
+			<ul>
+				<li><img src="img/formBlue.png" alt="Vaucher Entry"><a href="#" id='vaucherEntry' class="selected" onclick="vaucherEntry(); return false; showVauchers()">Vaucher Entry</a></li>
+				<li><img src="img/setting.png" alt="settings"><a href="#" id='settings' onclick="settings(); return false;">Settings</a></li>
+				<li><img src="img/about.png" alt="about"><a href="#" id="about" onclick="about(); return false;">About</a></li>
+				<li><img src="img/savefile.png" alt="Save File"><a href="#" onclick="logFile(); id='saveFile'">Save to File</a></li>
+			</ul>
+		</div>
+
+	<!-- *********  VAUCHER ENTRY FORM *********-->
+    <div id='container'>
+      	<div id="form" action="#" method="post">
+		<form name='VaucherForm' >
+			<legend>Vaucher Entry</legend>
+			<div id="both">
+				<div id="left">
+					<label for='vaucherID'>Vaucher ID:</label><input type="text" maxlength="8" name="vaucherID" id="vaucherID"><br>
+					<label for="vendorID">Vendor ID:</label><input type="text" maxlength="10" name="vendorID" id= "vendorID"><br>
+					<label for="amount">Amount:</label><input type="text" maxlength="17" name="amount" id="amount"><br>
+				</div>	
+				
+				<div id="right">
+					<label for="date">Date:</label><input type="date" maxlength="10" name="date" id="date"><br>
+					<label for="invoiceNumber">Invoice #:</label><input type="text" maxlength="28" name="invoiceNumber" id="invoiceNumber"><br>
+										
+					<div>	
+						<div id="fundDiv"><label for="fund">Fund:</label><input type="text" maxlength="5" name="fund" id="fund" value="I30"><br></div>
+						<div id= "deptDiv"><label for="deptID">Dept. ID:</label><input type="text" maxlength="7" name="deptID" id="deptID" value="18I"><br></div>
+					</div>	
+				</div>
+			</div>
+
+			<div>
+				<label for="descript">Description:</label><input type="text" maxlength="30" name="descript" id="descript" onkeydown="if (event.keyCode == 13) {addVaucher()}">
+				<!--//<label for="mysteryNumber">Mystery #:</label><input type="text" maxlength="30" name="mysteryNumber" id="mysteryNumber" value='3700'>-->
+			</div>
+
+			<button type="button" onClick="addVaucher()">Add Vaucher</button>
+			<button type="reset">Clear Form</button>
+		</form>
+	</div>
+
+	<!-- *********  SETTINGS *********-->
+    <div id="setForm">
+		<form id='settingsForm'>
+			<legend>Vaucher Entry Settings</legend>
+			<div id="both">
+				<div id="left">
+					<label for='vaucherID'>Vaucher ID:</label><input type="number" maxlength="8" name="vaucherID" id="setVaucherID"><br>
+					<label for="vendorID">Vendor ID:</label><input type="text" maxlength="10" name="vendorID" id= "setVendorID" value="MODEIRDI0"><br>
+					<label for="amount">Amount:</label><input type="text" maxlength="17" name="amount" id="setAmount"><br>
+				</div>	
+				
+				<div id="right">
+					<label for="date">Date:</label><input type="date" maxlength="10" name="date" id="setDate"><br>
+					<label for="invoiceNumber">Invoice #:</label><input type="text" maxlength="28" name="invoiceNumber" id="setInvoiceNumber"><br>
+					
+					<div>	
+						<div id="fundDiv"><label for="fund">Fund:</label><input type="text" maxlength="5" name="fund" id="setFund" value="I30"><br></div>
+						<div id= "deptDiv"><label for="deptID">Dept. ID:</label><input type="text" maxlength="7" name="deptID" id="setDeptID" value="18I"><br></div>
+					</div>	
+				</div>
+			</div>
+
+			<div>
+				<label for="description">Description:</label><input type="text" name="description" maxlength="30" id="setDescription">
+
+				<label for="rows">Rows:</label>
+				<select name="rows" id="rows">
+  					<option value="10">10</option>
+  					<option value="20">20</option>
+  					<option value="30">30</option>
+  					<option value="40">40</option>
+  					<option value="50" selected="selected" >50</option>
+  					<option value="100">100</option>
+  					<option value="200">200</option>
+  					<option value="500">500</option>
+  				</select>
+
+				<!--//<label for="mysteryNumber">Mystery #:</label><input type="text" name="mysteryNumber" id="mysteryNumber" value='3700'>-->
+			</div>
+
+			<button id='saveSettings' type='button' onclick= "clearFields()" style="display:inline-block !important" >Save Settings</button>
+			<button type="reset">Clear Form</button>
+		</form>
+	</div>
+
+ 	<!-- *********  ABOUT *********-->
+ 	<div id='aboutText'>
+	    <h3>Vaucher Entry Database</h3>
+	    <img src='img/DVE128.png' alt='Disctrict Vaucher Entry'>
+	    
+	    <h4>Version 1.0.0</h4>
+	    <p>This online application is used to enter voucher information and create a text file that is formatted according to the specifications required by the Account Payable Department of Spokane County. </p>
+	    <p>Written for the District by <a href="http://welldressedwalrus.com/">Well Dressed Walrus</a></p>
+	</div>
+
+
+      <div id='table'></div>
+    </div>
+
+    <footer class='container'>
+      <hr />
+	  <p class='pull-left'>&copy; 2015 <a href='http://welldressedwalrus.com/'>Well Dressed Walrus</a></p>
+    </footer>
+</script>
+
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/db.js"></script> 
+ 	
+</body>
+</html>

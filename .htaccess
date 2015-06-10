@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Please enter your username and password"
+AuthUserFile /home/ostapenk/public_html/MIVE/.htpass
+require valid-user
